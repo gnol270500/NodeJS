@@ -1,0 +1,75 @@
+<div class="container">
+  <h1 class="mt-4">Thống kê toàn quốc</h1>
+    <table class="table table-hover mt-4">
+        <thead class="table-primary">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">cccd</th>
+            <th scope="col">hoTen</th>
+            <th scope="col">ngaySinh</th>
+            <th scope="col">gioiTinh</th>
+            <th scope="col">ketHon</th>
+            <th scope="col">queQuan</th>
+            <th scope="col">sửa</th>
+            <th scope="col">xóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each result}}
+            <tr>
+              <th scope="row">{{this.id}}</th>
+              <td>{{this.cccd}}</td>
+              <td>{{this.hoTen}}</td>
+              <td>{{this.ngaySinh}}</td>
+              <td>{{this.gioiTinh}}</td>
+              <td>{{this.ketHon}}</td>
+              <td>{{this.queQuan}}</td>
+              <td><a href="/nhaplieu/{{this.id}}/edit"><i class="far fa-edit"></i></a></td>
+              <td><a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#delete-human"><i class="far fa-trash-alt"></i></a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="delete-human" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa bản ghi này?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Dữ liệu của bạn sẽ <strong>không</strong> thể khôi phục!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="submit-btn">Xóa</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="delete-form" method="POST" action="/thongke?_method=DELETE"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    let modelSubmitBtn = document.getElementById('submit-btn')
+    let deleteForm = document.getElementById('delete-form')
+    let id;
+    let exampleModal = document.getElementById('delete-human')
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      id = button.getAttribute('data-id')
+    })
+    modelSubmitBtn.onclick = function() {
+      deleteForm.action = `/nhaplieu/${id}?_method=DELETE`
+      deleteForm.submit();
+    }
+  });
+</script>
